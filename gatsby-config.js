@@ -33,5 +33,16 @@ module.exports = {
     "gatsby-plugin-root-import",
     `gatsby-plugin-postcss`,
     `gatsby-plugin-emotion`,
+    `gatsby-plugin-sass`,
+    {
+      resolve: `gatsby-plugin-google-fonts`,
+      options: {
+        fonts: [
+          `Raleway`,
+          `100` // you can also specify font weights and styles
+        ],
+        display: 'swap'
+      }
+    }
   ],
 }

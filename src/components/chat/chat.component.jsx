@@ -13,12 +13,17 @@ import { AvatarGenerator } from 'random-avatar-generator';
 
 
 const ChatHeader = styled(PersonCard)`
-  ${tw`top-auto container fixed top-0 z-50 w-full shadow-lg`}
+  ${tw`top-auto container fixed top-0 z-50 w-full shadow-lg sm:sticky`}
+  @media screen and (min-width:400px){
+    position: sticky
+  }
 `
 
 const ChatWindow = styled.div`
-  ${tw`h-full flex flex-col`}
-  padding-top: 6rem;
+  ${tw`h-full flex flex-col `}
+  @media screen and (min-width:400px){
+    display: block
+  }
 `
 
 const Messages = styled.div`
@@ -29,6 +34,10 @@ const InputWrapper = styled.div`
   
   margin: 0 20px;
   ${tw`fixed bottom-0 right-0 left-0  mb-5`}
+  @media screen and (min-width: 400px){
+    bottom: 1rem;
+    position: sticky
+  }
 `
 
 const PatientMsg = styled(MessageBox)`
@@ -116,7 +125,7 @@ function useAsyncHook2(messages) {
   return [result, loading]
 }
 
-const Chat = ({ messages }) => {
+const Chat = ({ messages, className }) => {
   const [message, setMessage] = useState("")
   const [inputs, appendInput] = useState([])
   const [inputValue, setInput] = useState("")
@@ -179,34 +188,37 @@ const generator = new AvatarGenerator();
 const avatarino = generator.generateRandomAvatar();
   
   return (
-    <ChatWindow>
+    <>
+    
+
+    <ChatWindow className={className}>
       <ChatHeader
         alt="profile avatar"
         name={faker.name.findName()}
         description=""
         avatar={avatarino}
-      />
+        />
       <Messages>
         <AppMsg
           position="left"
           type={"text"}
           text={"Hey, how is it going?👋"}
-        />
+          />
         <PatientMsg
           position="right"
           type={"text"}
           text={`Hey, all good, how about you?`}
-        />
+          />
         <AppMsg
           position="left"
           type={"text"}
           text={`Great, I was wondering if you knew any good web developer`}
-        />
+          />
         <PatientMsg
           position="right"
           type={"text"}
           text={`Sure, I know the guy for you 👍`}
-        />
+          />
         <a href="mailto:jennings.laurence@gmail.com">
           <FittedImage
             position="right"
@@ -217,13 +229,13 @@ const avatarino = generator.generateRandomAvatar();
             data={{
               uri: laurence,
             }}
-          />
+            />
         </a>
         <PatientMsg
           position="right"
           type={"text"}
           text={`I'll send you some links to some of his websites so you can have a look and see for yourself`}
-        />
+          />
         <a href="https://www.astramarina.com">
           <PatientMsg
             position="right"
@@ -232,7 +244,7 @@ const avatarino = generator.generateRandomAvatar();
             data={{
               uri: astra,
             }}
-          />
+            />
         </a>
         <a href="https://www.martinnings.com">
           <PatientMsg
@@ -242,7 +254,7 @@ const avatarino = generator.generateRandomAvatar();
             data={{
               uri: martin,
             }}
-          />
+            />
         </a>
         <a href="https://www.studioverter.com">
           <PatientMsg
@@ -254,7 +266,7 @@ const avatarino = generator.generateRandomAvatar();
             data={{
               uri: claudio,
             }}
-          />
+            />
         </a>
         <a href="https://www.solho.eu">
           <PatientMsg
@@ -264,30 +276,30 @@ const avatarino = generator.generateRandomAvatar();
             data={{
               uri: adriano,
             }}
-          />
+            />
         </a>
         {loading === "false" ? (
           <h1>This should not be here 🤷</h1>
-        ) : loading === "null" ? (
-          <h1>This shouldn't be here 🤷</h1>
-        ) : (
-          result.map((item,idx) => {
-            
-            return (
-              <>
+          ) : loading === "null" ? (
+            <h1>This shouldn't be here 🤷</h1>
+            ) : (
+              result.map((item,idx) => {
+                
+                return (
+                  <>
                 <AppMsg key={`cioccio_item${item}`} position="left" type={"text"} text={item} />
                 <PatientMsg
                 key={`cioccio_item${output[idx]}`}
-                  position="right"
-                  type={"text"}
-                  text={
-                    output[idx]
-                  }
+                position="right"
+                type={"text"}
+                text={
+                  output[idx]
+                }
                 />
               </>
             )
           })
-        )}
+          )}
         <div ref={resultsRef}/>
       </Messages>
       <InputWrapper>
@@ -298,16 +310,17 @@ const avatarino = generator.generateRandomAvatar();
           ref={el => (inputRef = el)}
           rightButtons={
             <StyledBtn
-              color="white"
-              backgroundColor="black"
-              text="Send"
-              onClick={sendText}
-              disabled={inputValue.length === 0}
+            color="white"
+            backgroundColor="black"
+            text="Send"
+            onClick={sendText}
+            disabled={inputValue.length === 0}
             />
           }
-        />
+          />
       </InputWrapper>
     </ChatWindow>
+    </>
   )
 }
 
